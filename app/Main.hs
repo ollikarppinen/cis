@@ -1,6 +1,9 @@
 module Main where
 
 import Lib
+import Hw1
 
 main :: IO ()
-main = someFunc
+main = do
+  someFunc
+  print (show (toDigits 123))
