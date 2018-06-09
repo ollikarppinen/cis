@@ -1,6 +1,7 @@
 module Hw1
     ( toDigits,
-      toDigitsRev
+      toDigitsRev,
+      doubleEveryOther
     ) where
 
 -- exercise 1
@@ -12,3 +13,8 @@ toDigits i
 
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev = reverse . toDigits
+
+-- exercise 2
+
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther xs = xs

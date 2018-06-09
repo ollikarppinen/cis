@@ -1,7 +1,7 @@
 import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
-import Hw1 (toDigits, toDigitsRev)
+import Hw1 (toDigits, toDigitsRev, doubleEveryOther)
 
 main :: IO ()
 main = do
@@ -15,7 +15,7 @@ homework =
 round1 =
   testGroup
     "Round 1"
-    [ex1]
+    [ex1, ex2]
 
 ex1 =
   testGroup
@@ -43,4 +43,20 @@ intReturnsDigits = testCase "Int returns list of digits"
 
 listIsReversed = testCase "List is reversed"
   (assertEqual "Should reverse list" [1, 2, 3] (toDigitsRev 321))
+
+ex2 =
+  testGroup
+    "Exercise 2"
+    [doubleEveryOtherTests]
+
+doubleEveryOtherTests =
+  testGroup
+    "doubleEveryOther"
+    [doublesSecondAndFourth, doublesSecond]
+
+doublesSecondAndFourth = testCase "Second and fourth Integer is doubled"
+  (assertEqual "Should return list of Integers" [16, 7, 12, 5] (doubleEveryOther [8, 7, 6, 5]))
+
+doublesSecond = testCase "Second Integer is doubled"
+  (assertEqual "Should return list of Integers" [1, 2, 3] (doubleEveryOther [1, 4, 3]))
 
