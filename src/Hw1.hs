@@ -17,4 +17,9 @@ toDigitsRev = reverse . toDigits
 -- exercise 2
 
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther xs = xs
+doubleEveryOther xs = map doubleIfEven $ zip xs [0..]
+
+doubleIfEven :: (Integer, Integer) -> Integer
+doubleIfEven x
+  | even $ fst $ x = fst x * 2
+  | otherwise     = fst x

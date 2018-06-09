@@ -58,5 +58,5 @@ doublesSecondAndFourth = testCase "Second and fourth Integer is doubled"
   (assertEqual "Should return list of Integers" [16, 7, 12, 5] (doubleEveryOther [8, 7, 6, 5]))
 
 doublesSecond = testCase "Second Integer is doubled"
-  (assertEqual "Should return list of Integers" [1, 2, 3] (doubleEveryOther [1, 4, 3]))
+  (assertEqual "Should return list of Integers" [1, 4, 3] (doubleEveryOther [1, 2, 3]))
 
