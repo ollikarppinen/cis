@@ -1,7 +1,7 @@
 import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
-import Hw1 (toDigits, toDigitsRev, doubleEveryOther)
+import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits)
 
 main :: IO ()
 main = do
@@ -15,7 +15,7 @@ homework =
 round1 =
   testGroup
     "Round 1"
-    [ex1, ex2]
+    [ex1, ex2, ex3]
 
 ex1 =
   testGroup
@@ -59,4 +59,17 @@ doublesSecondAndFourth = testCase "Second and fourth Integer is doubled"
 
 doublesSecond = testCase "Second Integer is doubled"
   (assertEqual "Should return list of Integers" [1, 4, 3] (doubleEveryOther [1, 2, 3]))
+
+ex3 =
+  testGroup
+    "Exercise 3"
+    [sumDigitsTests]
+
+sumDigitsTests =
+  testGroup
+    "sumDigits"
+    [sumsIntegerArrayDigits]
+
+sumsIntegerArrayDigits = testCase "Integer array digits are summed"
+  (assertEqual "Should return sum of digits" 22 (sumDigits [16, 7, 12, 5]))
 

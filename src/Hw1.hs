@@ -1,7 +1,8 @@
 module Hw1
     ( toDigits,
       toDigitsRev,
-      doubleEveryOther
+      doubleEveryOther,
+      sumDigits
     ) where
 
 -- exercise 1
@@ -23,3 +24,9 @@ doubleIfEven :: (Integer, Integer) -> Integer
 doubleIfEven x
   | even $ fst $ x = fst x * 2
   | otherwise     = fst x
+
+-- exercise 3
+
+sumDigits :: [Integer] -> Integer
+sumDigits = sum . map (sum . toDigits)
+
