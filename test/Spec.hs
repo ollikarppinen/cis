@@ -1,7 +1,7 @@
 import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
-import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate)
+import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate, hanoi)
 
 main :: IO ()
 main = do
@@ -15,7 +15,7 @@ homework =
 round1 =
   testGroup
     "Round 1"
-    [ex1, ex2, ex3, ex4]
+    [ex1, ex2, ex3, ex4, ex5]
 
 ex1 =
   testGroup
@@ -88,4 +88,17 @@ validatesCorrect = testCase "Validates valid credit card when correct"
 
 validatesIncorrect = testCase "Validates valid credit card when incorrect"
   (assertEqual "Should validate credit card" False (validate 4012888888881882))
+
+ex5 =
+  testGroup
+    "Exercise 5"
+    [hanoiTests]
+
+hanoiTests =
+  testGroup
+    "hanoi"
+    [hanoiMovesStackToSecondPeg]
+
+hanoiMovesStackToSecondPeg = testCase "Moves stack to second peg"
+  (assertEqual "Should return a correct sequence of moves" [("a","c"), ("a","b"), ("c","b")] (hanoi 2 "a" "b" "c"))
 

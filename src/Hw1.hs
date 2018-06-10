@@ -3,7 +3,8 @@ module Hw1
       toDigitsRev,
       doubleEveryOther,
       sumDigits,
-      validate
+      validate,
+      hanoi
     ) where
 
 -- exercise 1
@@ -38,4 +39,13 @@ validate = isMod10 . sum . (map sum) . (map toDigits) . doubleEveryOther . toDig
 
 isMod10 :: Integer -> Bool
 isMod10 x = rem x 10 == 0
+
+-- exercise 5
+
+type Peg = String
+type Move = (Peg, Peg)
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi h p1 p2 p3
+  | h == 1    = [(p1, p2)]
+  | otherwise = hanoi (h - 1) p1 p3 p2 ++ [(p1, p2)] ++ hanoi (h - 1) p3 p2 p1
 
