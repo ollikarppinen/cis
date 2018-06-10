@@ -1,7 +1,7 @@
 import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
-import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits)
+import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate)
 
 main :: IO ()
 main = do
@@ -15,7 +15,7 @@ homework =
 round1 =
   testGroup
     "Round 1"
-    [ex1, ex2, ex3]
+    [ex1, ex2, ex3, ex4]
 
 ex1 =
   testGroup
@@ -58,7 +58,7 @@ doublesSecondAndFourth = testCase "Second and fourth Integer is doubled"
   (assertEqual "Should return list of Integers" [16, 7, 12, 5] (doubleEveryOther [8, 7, 6, 5]))
 
 doublesSecond = testCase "Second Integer is doubled"
-  (assertEqual "Should return list of Integers" [1, 4, 3] (doubleEveryOther [1, 2, 3]))
+  (assertEqual "Should return list of Integers" [2, 2, 6] (doubleEveryOther [1, 2, 3]))
 
 ex3 =
   testGroup
@@ -72,4 +72,20 @@ sumDigitsTests =
 
 sumsIntegerArrayDigits = testCase "Integer array digits are summed"
   (assertEqual "Should return sum of digits" 22 (sumDigits [16, 7, 12, 5]))
+
+ex4 =
+  testGroup
+    "Exercise 4"
+    [validateTests]
+
+validateTests =
+  testGroup
+    "validate"
+    [validatesCorrect, validatesIncorrect]
+
+validatesCorrect = testCase "Validates valid credit card when correct"
+  (assertEqual "Should validate credit card" True (validate 4012888888881881))
+
+validatesIncorrect = testCase "Validates valid credit card when incorrect"
+  (assertEqual "Should validate credit card" False (validate 4012888888881882))
 

@@ -2,7 +2,8 @@ module Hw1
     ( toDigits,
       toDigitsRev,
       doubleEveryOther,
-      sumDigits
+      sumDigits,
+      validate
     ) where
 
 -- exercise 1
@@ -22,11 +23,19 @@ doubleEveryOther xs = map doubleIfEven $ zip xs [0..]
 
 doubleIfEven :: (Integer, Integer) -> Integer
 doubleIfEven x
-  | even $ fst $ x = fst x * 2
+  | even $ snd $ x = fst x * 2
   | otherwise     = fst x
 
 -- exercise 3
 
 sumDigits :: [Integer] -> Integer
 sumDigits = sum . map (sum . toDigits)
+
+-- exercise 4
+
+validate :: Integer -> Bool
+validate = isMod10 . sum . (map sum) . (map toDigits) . doubleEveryOther . toDigits
+
+isMod10 :: Integer -> Bool
+isMod10 x = rem x 10 == 0
 
