@@ -2,6 +2,8 @@ import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
 import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate, hanoi)
+import LogAnalysis (parseMessage)
+import Log
 
 main :: IO ()
 main = do
@@ -10,7 +12,7 @@ main = do
 homework =
   testGroup
     "Homework tests"
-    [round1]
+    [round1, round2]
 
 round1 =
   testGroup
@@ -102,3 +104,26 @@ hanoiTests =
 hanoiMovesStackToSecondPeg = testCase "Moves stack to second peg"
   (assertEqual "Should return a correct sequence of moves" [("a","c"), ("a","b"), ("c","b")] (hanoi 2 "a" "b" "c"))
 
+round2 =
+  testGroup
+    "Round 2"
+    [r2ex1]
+
+r2ex1 =
+  testGroup
+    "Exercise 1"
+    [parseMessageTest]
+
+parseMessageTest =
+  testGroup
+    "parseMessage"
+    [parseError, parseInfo, parseUnknown]
+
+parseError = testCase "Parses Error"
+  (assertEqual "Should parse Error correctly" (LogMessage (Error 2) 562 "help help") (parseMessage "E 2 562 help help"))
+
+parseInfo = testCase "Parses Info"
+  (assertEqual "Should parse Info correctly" (LogMessage Info 29 "la la la") (parseMessage "I 29 la la la"))
+
+parseUnknown = testCase "Parses Unknown"
+  (assertEqual "Should parse Unknown correctly" (Unknown "This is not in the right format") (parseMessage "This is not in the right format"))
