@@ -9,3 +9,5 @@ parseMessage message = case words message of
   "E":s:t:txt -> LogMessage (Error (read s::Int)) (read t::Int) (unwords txt)
   txt         -> Unknown (unwords txt)
 
+parse :: String -> [LogMessage]
+parse = (map parseMessage) . lines
