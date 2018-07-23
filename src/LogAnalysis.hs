@@ -26,3 +26,18 @@ build :: [LogMessage] -> MessageTree
 build [] = Leaf
 build (hd:tl) = insert hd (build tl)
 
+inOrder :: MessageTree -> [LogMessage]
+inOrder Leaf = []
+inOrder (Node lt m rt) = (inOrder lt) ++ [m] ++ (inOrder rt)
+
+isSevere :: LogMessage -> Bool
+isSevere (LogMessage (Error x) _ _) = x >= 50
+isSevere _ = False
+
+getText :: LogMessage -> String
+getText (Unknown txt) = txt
+getText (LogMessage _ _ txt) = txt
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong = (map getText) . inOrder . build . (filter isSevere)
+

@@ -2,7 +2,7 @@ import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
 import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate, hanoi)
-import LogAnalysis (parseMessage, insert, build)
+import LogAnalysis (parseMessage, insert, build, inOrder, whatWentWrong)
 import Log
 
 main :: IO ()
@@ -164,4 +164,17 @@ buildMessagesTest =
 
 buildMessages = testCase "Builds messages"
   (assertEqual "Should build message tree" (Node (Node Leaf infoMessage Leaf) errorMessage Leaf) (build [infoMessage, errorMessage, unknownMessage]))
+
+inOrderMessagesTest =
+  testGroup
+    "InOrderMessages"
+    [inOrderMessages]
+
+m1 = LogMessage Info 1 ""
+m2 = LogMessage Info 2 ""
+m3 = LogMessage Info 3 ""
+m4 = LogMessage Info 4 ""
+inOrderMt = Node (Node Leaf m1 (Node Leaf m2 Leaf)) m3 (Node Leaf m4 Leaf)
+inOrderMessages = testCase "Returns messages in order"
+  (assertEqual "Should return messages in order" [m1, m2, m3, m4] (inOrder inOrderMt))
 
