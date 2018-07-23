@@ -22,3 +22,7 @@ insert (LogMessage t1 ts1 txt1) (Node lt (LogMessage t2 ts2 txt2) rt) = if ts1 <
   then (Node (insert (LogMessage t1 ts1 txt1) lt) (LogMessage t2 ts2 txt2) rt)
   else (Node lt (LogMessage t2 ts2 txt2) (insert (LogMessage t1 ts1 txt1) rt))
 
+build :: [LogMessage] -> MessageTree
+build [] = Leaf
+build (hd:tl) = insert hd (build tl)
+

@@ -2,7 +2,7 @@ import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
 import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate, hanoi)
-import LogAnalysis (parseMessage, insert)
+import LogAnalysis (parseMessage, insert, build)
 import Log
 
 main :: IO ()
@@ -135,7 +135,7 @@ parseUnknown = testCase "Parses Unknown"
 r2ex2 =
   testGroup
     "Exercise 2"
-    [insertMessageTest]
+    [insertMessageTest, buildMessagesTest]
 
 insertMessageTest =
   testGroup
@@ -144,7 +144,6 @@ insertMessageTest =
 
 insertError = testCase "Inserts Error"
   (assertEqual "Should insert Error" (Node Leaf errorMessage Leaf) (insert errorMessage Leaf))
-
 
 insertInfo = testCase "Inserts Info"
   (assertEqual "Should insert Info" (Node Leaf infoMessage Leaf) (insert infoMessage Leaf))
@@ -157,4 +156,12 @@ insertLessThan = testCase "Inserts less than timestamps"
 
 insertGreaterThan = testCase "Inserts greater than timestamps"
   (assertEqual "Should insert into right tree" (Node Leaf infoMessage (Node Leaf errorMessage Leaf)) (insert errorMessage (Node Leaf infoMessage Leaf)))
+
+buildMessagesTest =
+  testGroup
+    "BuildMessages"
+    [buildMessages]
+
+buildMessages = testCase "Builds messages"
+  (assertEqual "Should build message tree" (Node (Node Leaf infoMessage Leaf) errorMessage Leaf) (build [infoMessage, errorMessage, unknownMessage]))
 
