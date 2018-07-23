@@ -2,7 +2,7 @@ import Test.Tasty (defaultMain, testGroup)
 import Test.Tasty.HUnit (assertEqual, testCase)
 
 import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate, hanoi)
-import LogAnalysis (parseMessage)
+import LogAnalysis (parseMessage, insert)
 import Log
 
 main :: IO ()
@@ -107,7 +107,7 @@ hanoiMovesStackToSecondPeg = testCase "Moves stack to second peg"
 round2 =
   testGroup
     "Round 2"
-    [r2ex1]
+    [r2ex1, r2ex2]
 
 r2ex1 =
   testGroup
@@ -127,3 +127,24 @@ parseInfo = testCase "Parses Info"
 
 parseUnknown = testCase "Parses Unknown"
   (assertEqual "Should parse Unknown correctly" (Unknown "This is not in the right format") (parseMessage "This is not in the right format"))
+
+r2ex2 =
+  testGroup
+    "Exercise 2"
+    [insertMessageTest]
+
+insertMessageTest =
+  testGroup
+    "InsertMessage"
+    [insertError, insertInfo, insertUnknown]
+
+insertError = testCase "Inserts Error"
+  (assertEqual "Should insert Error" (Node Leaf (LogMessage (Error 2) 562 "help help") Leaf) (insert (LogMessage (Error 2) 562 "help help") Leaf))
+
+
+insertInfo = testCase "Inserts Info"
+  (assertEqual "Should insert Info" (Node Leaf (LogMessage Info 29 "la la la") Leaf) (insert (LogMessage Info 29 "la la la") Leaf))
+
+insertUnknown = testCase "Inserts Unknown"
+  (assertEqual "Should not insert Unknown" Leaf (insert (Unknown "Foo") Leaf))
+

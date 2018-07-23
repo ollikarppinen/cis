@@ -11,3 +11,12 @@ parseMessage message = case words message of
 
 parse :: String -> [LogMessage]
 parse = (map parseMessage) . lines
+
+getTs :: LogMessage -> Int
+getTs (LogMessage _ ts _) = ts
+
+insert :: LogMessage -> MessageTree -> MessageTree
+insert (Unknown message) tree = tree
+insert message Leaf = Node Leaf message Leaf
+insert message (Node lt nm rt) = lt
+
