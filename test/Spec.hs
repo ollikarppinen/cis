@@ -119,14 +119,18 @@ parseMessageTest =
     "parseMessage"
     [parseError, parseInfo, parseUnknown]
 
+errorMessage = LogMessage (Error 2) 562 "help help"
+infoMessage = LogMessage Info 29 "la la la"
+unknownMessage = Unknown "This is not in the right format"
+
 parseError = testCase "Parses Error"
-  (assertEqual "Should parse Error correctly" (LogMessage (Error 2) 562 "help help") (parseMessage "E 2 562 help help"))
+  (assertEqual "Should parse Error correctly" errorMessage (parseMessage "E 2 562 help help"))
 
 parseInfo = testCase "Parses Info"
-  (assertEqual "Should parse Info correctly" (LogMessage Info 29 "la la la") (parseMessage "I 29 la la la"))
+  (assertEqual "Should parse Info correctly" infoMessage (parseMessage "I 29 la la la"))
 
 parseUnknown = testCase "Parses Unknown"
-  (assertEqual "Should parse Unknown correctly" (Unknown "This is not in the right format") (parseMessage "This is not in the right format"))
+  (assertEqual "Should parse Unknown correctly" unknownMessage (parseMessage "This is not in the right format"))
 
 r2ex2 =
   testGroup
@@ -136,15 +140,21 @@ r2ex2 =
 insertMessageTest =
   testGroup
     "InsertMessage"
-    [insertError, insertInfo, insertUnknown]
+    [insertError, insertInfo, insertUnknown, insertLessThan, insertGreaterThan]
 
 insertError = testCase "Inserts Error"
-  (assertEqual "Should insert Error" (Node Leaf (LogMessage (Error 2) 562 "help help") Leaf) (insert (LogMessage (Error 2) 562 "help help") Leaf))
+  (assertEqual "Should insert Error" (Node Leaf errorMessage Leaf) (insert errorMessage Leaf))
 
 
 insertInfo = testCase "Inserts Info"
-  (assertEqual "Should insert Info" (Node Leaf (LogMessage Info 29 "la la la") Leaf) (insert (LogMessage Info 29 "la la la") Leaf))
+  (assertEqual "Should insert Info" (Node Leaf infoMessage Leaf) (insert infoMessage Leaf))
 
 insertUnknown = testCase "Inserts Unknown"
-  (assertEqual "Should not insert Unknown" Leaf (insert (Unknown "Foo") Leaf))
+  (assertEqual "Should not insert Unknown" Leaf (insert unknownMessage Leaf))
+
+insertLessThan = testCase "Inserts less than timestamps"
+  (assertEqual "Should insert into left tree" (Node (Node Leaf infoMessage Leaf) errorMessage Leaf) (insert infoMessage (Node Leaf errorMessage Leaf)))
+
+insertGreaterThan = testCase "Inserts greater than timestamps"
+  (assertEqual "Should insert into right tree" (Node Leaf infoMessage (Node Leaf errorMessage Leaf)) (insert errorMessage (Node Leaf infoMessage Leaf)))
 

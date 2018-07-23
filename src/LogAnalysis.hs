@@ -18,5 +18,7 @@ getTs (LogMessage _ ts _) = ts
 insert :: LogMessage -> MessageTree -> MessageTree
 insert (Unknown message) tree = tree
 insert message Leaf = Node Leaf message Leaf
-insert message (Node lt nm rt) = lt
+insert (LogMessage t1 ts1 txt1) (Node lt (LogMessage t2 ts2 txt2) rt) = if ts1 < ts2
+  then (Node (insert (LogMessage t1 ts1 txt1) lt) (LogMessage t2 ts2 txt2) rt)
+  else (Node lt (LogMessage t2 ts2 txt2) (insert (LogMessage t1 ts1 txt1) rt))
 
