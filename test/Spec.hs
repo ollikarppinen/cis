@@ -4,6 +4,7 @@ import Test.Tasty.HUnit (assertEqual, testCase)
 import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate, hanoi)
 import LogAnalysis (parseMessage, insert, build, inOrder, whatWentWrong)
 import Log
+import Golf (skips)
 
 main :: IO ()
 main = do
@@ -12,7 +13,7 @@ main = do
 homework =
   testGroup
     "Homework tests"
-    [round1, round2]
+    [round1, round2, round3]
 
 round1 =
   testGroup
@@ -177,4 +178,12 @@ m4 = LogMessage Info 4 ""
 inOrderMt = Node (Node Leaf m1 (Node Leaf m2 Leaf)) m3 (Node Leaf m4 Leaf)
 inOrderMessages = testCase "Returns messages in order"
   (assertEqual "Should return messages in order" [m1, m2, m3, m4] (inOrder inOrderMt))
+
+round3 = testGroup "Round 3" [r3e1]
+r3e1 = testGroup "Exercise 1" [skipsStr1, skipsStr2, skipsInt, skipsBool, skipsNone]
+skipsStr1 = testCase "Skip string 1" (assertEqual "Returns array" ["ABCD", "BD", "C", "D"] (skips "ABCD"))
+skipsStr2 = testCase "Skip string 2" (assertEqual "Returns array" ["hello!", "el!", "l!", "l", "o", "!"] (skips "hello!"))
+skipsInt = testCase "Skip integer" (assertEqual "Returns array" [[1 :: Int]] (skips [1]))
+skipsBool = testCase "Skip boolean" (assertEqual "Returns array" [[True, False], [False]] (skips [True, False]))
+skipsNone = testCase "Skip null" (assertEqual "Returns array" [] (skips ([] :: [Int])))
 
