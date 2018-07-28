@@ -4,7 +4,7 @@ import Test.Tasty.HUnit (assertEqual, testCase)
 import Hw1 (toDigits, toDigitsRev, doubleEveryOther, sumDigits, validate, hanoi)
 import LogAnalysis (parseMessage, insert, build, inOrder, whatWentWrong)
 import Log
-import Golf (skips)
+import Golf (skips, localMaxima)
 
 main :: IO ()
 main = do
@@ -179,11 +179,16 @@ inOrderMt = Node (Node Leaf m1 (Node Leaf m2 Leaf)) m3 (Node Leaf m4 Leaf)
 inOrderMessages = testCase "Returns messages in order"
   (assertEqual "Should return messages in order" [m1, m2, m3, m4] (inOrder inOrderMt))
 
-round3 = testGroup "Round 3" [r3e1]
+round3 = testGroup "Round 3" [r3e1, r3e2]
 r3e1 = testGroup "Exercise 1" [skipsStr1, skipsStr2, skipsInt, skipsBool, skipsNone]
 skipsStr1 = testCase "Skip string 1" (assertEqual "Returns array" ["ABCD", "BD", "C", "D"] (skips "ABCD"))
 skipsStr2 = testCase "Skip string 2" (assertEqual "Returns array" ["hello!", "el!", "l!", "l", "o", "!"] (skips "hello!"))
 skipsInt = testCase "Skip integer" (assertEqual "Returns array" [[1 :: Int]] (skips [1]))
 skipsBool = testCase "Skip boolean" (assertEqual "Returns array" [[True, False], [False]] (skips [True, False]))
 skipsNone = testCase "Skip null" (assertEqual "Returns array" [] (skips ([] :: [Int])))
+
+r3e2 = testGroup "Exercise 2" [localMaxima1, localMaxima2, localMaxima3]
+localMaxima1 = testCase "With 2 maximas" (assertEqual "Returns array with 2 ints" [9, 6] (localMaxima [2, 9, 5, 6, 1]))
+localMaxima2 = testCase "With 1 maximas" (assertEqual "Returns array with element" [4] (localMaxima [2, 3, 4, 1, 5]))
+localMaxima3 = testCase "Without maximas" (assertEqual "Returns empty array" [] (localMaxima [1, 2, 3, 4, 5]))
 
